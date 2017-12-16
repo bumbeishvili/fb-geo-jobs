@@ -46,6 +46,9 @@ utils.combineArrays = function (arrOfarrs) {
 
 utils.setCompositeID = function (obj) {
   obj.compositeID = obj.link;
+  if(obj.createDate){
+    obj.createDate = new Date();
+  }
 }
 
 
