@@ -34,10 +34,12 @@ app.get('/insertNew', (req, res) => {
 
 
 app.get('/post', (req, res) => {
+  
   if (status == statuses.processing) {
     res.send('Already Processing');
     return;
   }
+  status = statuses.processing
   console.log('started posting');
   fbApi.startPosting().then(() => {
     res.send('all jobs posted');
