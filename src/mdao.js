@@ -1,5 +1,4 @@
 var mongojs = require('mongojs');
-
 var mdao = {};
 
 
@@ -47,5 +46,17 @@ mdao.loadUnposted = function () {
     });// end of db access
   }); //end of promise
 }// end of function
+
+mdao.setAsPosted = function (item) {
+  var db = mdao.getDB();
+  item.posted = true;
+  return new Promise((resolve, reject) => {
+    db.jobs.update({ "_id": item._id }, item, function () {
+      resolve(item);
+    });
+
+  }); //end of promise
+}
+
 
 module.exports = mdao;

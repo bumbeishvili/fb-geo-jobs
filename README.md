@@ -9,10 +9,12 @@
 
  # Pages
  1. [Finance Jobs Georgia](https://www.facebook.com/Finance-Jobs-Georgia-546487785704283/notifications/)  
+
+ 
 1. [IT Jobs Georgia](https://m.facebook.com/it.jobs.georgia/?ref=m_notif&notif_t=page_fan&notif_id=1513417791792385)  
 
 
-**Possible Sources :**
+**Possible Sources :**  
 Jobs.ge  
 Work.ge  
 jobs.on.ge  

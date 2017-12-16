@@ -1,5 +1,16 @@
 var utils = {};
 
+utils.getAccessToken = function (item) {
+  var tokenName = item.type + "AccessToken";
+  if (process.env[tokenName]) {
+    return process.env[tokenName];
+  } else {
+    var secret = require('./secretGitIgnore');
+    return secret[tokenName];
+  }
+
+}
+
 utils.htmlfy = function (items) {
 
   var postedCount = 100;
