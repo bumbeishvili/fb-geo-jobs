@@ -53,7 +53,7 @@ function postToFB(item, filteredTypes) {
   var body =
     FB.api('me/feed', 'post', fbPost, function (res) {
       if (!res || res.error) {
-        filteredTypes.push(repo.type);
+        filteredTypes.push(item.type);
         console.log(!res ? 'error occurred' : res.error);
         return;
       }
