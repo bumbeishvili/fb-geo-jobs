@@ -29,5 +29,13 @@ utils.cleanString = function (string) {
   return string.trim();
 }
 
+utils.combineArrays = function (arrOfarrs) {
+  return arrOfarrs.reduce((a, b) => a.concat(b));
+}
+
+utils.setCompositeID = function (obj) {
+  obj.compositeID = obj.link;
+}
+
 
 module.exports = utils;

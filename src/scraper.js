@@ -30,27 +30,31 @@ scraper.scrapingMethods = {
   jobsge: jobsGeCrawler
 };
 
-scraper.crawle = function (callback) {
-  var total = scraper.configs.sites.$sum(s => s.categories.length);
-  var counter = 0;
-  var totalResult = [];
-  console.log(`Starting  ${total} crawling`);
-  scraper.configs.sites.forEach(site => {
-    site.categories.forEach(category => {
-      console.log(`Crawling ${site.siteName} => ${category.id}`);
-      scraper.scrapingMethods[site.scrapingMethod](category, function (result) {
-        counter++;
-        console.log(`Left  ${total - counter} response`);
-        totalResult.push(result)
-        if (counter == total) {
-          if (typeof callback == 'function') {
-            callback(totalResult);
+scraper.crawle = function () {
+  return new Promise((resolve, reject) => {
+    var total = scraper.configs.sites.$sum(s => s.categories.length);
+    var counter = 0;
+    var totalResult = [];
+    console.log(`Starting  ${total} crawling`);
+    scraper.configs.sites.forEach(site => {
+      site.categories.forEach(category => {
+        console.log(`Crawling ${site.siteName} => ${category.id}`);
+        scraper.scrapingMethods[site.scrapingMethod](category, function (result) {
+          counter++;
+          console.log(`Left  ${total - counter} response`);
+          totalResult.push(result)
+          if (counter == total) {
+            var combinedArrays = utils.combineArrays(totalResult)
+            combinedArrays.forEach(utils.setCompositeID);
+            resolve(combinedArrays);
           }
-        }
-      }, counter)
+        }, counter)
+      })
     })
   })
 }
+
+
 
 function jobsGeCrawler(category, callback) {
   var c = new Crawler({
@@ -60,9 +64,7 @@ function jobsGeCrawler(category, callback) {
       if (error) {
         console.log(error);
       } else {
-
         var $ = res.$;
-
         var jobs = $('.regularEntries tr')
           .map((i, d) => d)
           .filter((i, d) => i > 0)

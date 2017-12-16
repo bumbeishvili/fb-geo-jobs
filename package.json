@@ -18,6 +18,8 @@
   "homepage": "https://github.com/bumbeishvili/fb-geo-jobs#readme",
   "dependencies": {
     "crawler": "^1.1.2",
-    "express": "^4.16.2"
+    "express": "^4.16.2",
+    "fb": "^2.0.0",
+    "mongojs": "^2.4.1"
   }
 }
