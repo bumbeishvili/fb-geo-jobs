@@ -8,11 +8,7 @@ var router = express.Router();
 
 var fbApi = {};
 
-var statuses = {
-  processing: "processing",
-  idle: "idle"
-}
-var status = statuses.idle;
+
 
 
 
@@ -36,7 +32,6 @@ fbApi.startPosting = function (unposted) {
         }
         if (!item) {
           clearInterval(interval);
-          status = statuses.idle;
           console.log('Done!');
           resolve('done');
         }

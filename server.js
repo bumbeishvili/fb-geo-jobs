@@ -4,6 +4,13 @@ var mdao = require('./src/mdao.js');
 var fbApi = require('./src/fbApi.js');
 require('./src/prototypes.js');
 
+var statuses = {
+  processing: "processing",
+  idle: "idle"
+}
+var status = statuses.idle;
+
+
 
 const express = require('express');
 const app = express();
@@ -27,9 +34,14 @@ app.get('/insertNew', (req, res) => {
 
 
 app.get('/post', (req, res) => {
+  if (status == statuses.processing) {
+    res.send('Already Processing');
+    return;
+  }
   console.log('started posting');
   fbApi.startPosting().then(() => {
     res.send('all jobs posted');
+    status = statuses.idle;
   })
 })
 
