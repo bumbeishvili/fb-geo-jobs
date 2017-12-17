@@ -206,6 +206,7 @@ scraper.updateSalaries = function () {
           clearInterval(interval);
           console.log('Done!');
           resolve('done');
+          return;
         }
 
         salaryCrawler(item, function (salary) {
