@@ -6,9 +6,10 @@ require('./src/prototypes.js');
 
 var statuses = {
   processing: "processing",
-  idle: "idle"
+  idle: "idle",
 }
 var status = statuses.idle;
+var salaryStatus = statuses.idle;
 
 
 
@@ -37,10 +38,16 @@ app.get('/insertNew', (req, res) => {
 
 
 app.get('/updateSalaries', (req, res) => {
- 
+  if (salaryStatus == statuses.processing) {
+    res.send('Already Processing');
+    return;
+  }
+  salaryStatus = statuses.processing
+
   scraper.updateSalaries()
     .then(function (result) {
       res.send('updated 30 salaries');
+      status = statuses.idle;
     })
 })
 
