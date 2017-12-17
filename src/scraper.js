@@ -1,5 +1,6 @@
 var Crawler = require('crawler');
 var utils = require('./utils.js');
+var mdao = require('./mdao.js');
 require('./prototypes.js');
 
 var scraper = {};
@@ -129,7 +130,7 @@ function jobsGeCrawler(category, callback) {
             .find('td')
             .map((i, d) => {
               return {
-                link: $(d).find('a').map((i, l) => 'www.jobs.ge' + $(l).attr('href'))[0],
+                link: $(d).find('a').map((i, l) => 'http://www.jobs.ge' + $(l).attr('href'))[0],
                 text: $(d).text()
               }
             }))
@@ -164,5 +165,64 @@ function jobsGeCrawler(category, callback) {
   })
   c.queue(category.url);
 }
+
+function salaryCrawler(item, callback) {
+  console.log(`crawling ${item} for salary`)
+  var c = new Crawler({
+    maxConnections: 10,
+    // This will be called for each crawled page
+    callback: function (error, res, done) {
+      if (error) {
+        console.log(error);
+      } else {
+        var $ = res.$;
+        var salary = $.text().split(/\n/g).filter(d => d.indexOf('ნაზღ') != -1 || d.indexOf('ხელფას') != -1 || d.indexOf('ლარი') != -1);
+        if (typeof callback == 'function') {
+          callback(salary);
+        }
+      }
+      done();
+    }
+  })
+  c.queue(item.link);
+}
+
+scraper.updateSalaries = function () {
+  var db = mdao.getDB();
+  return new Promise((resolve, reject) => {
+    updateSalary();
+    var interval = setInterval(updateSalary, 10000);
+    function updateSalary() {
+
+      //get job, where salary is not scraped yet
+      db.jobs.findOne({ hasSalary: true, scrapedForSalary: { $ne: true } }, (err, item) => {
+        console.log('Trying to load salary for ', item);
+        if (err) {
+          console.log(err);
+          clearInterval(interval);
+          return;
+        }
+        if (!item) {
+          clearInterval(interval);
+          console.log('Done!');
+          resolve('done');
+        }
+
+        salaryCrawler(item, function (salary) {
+          console.log('salary crawled, updating item')
+          if (salary.length) {
+            item.salary = salary.join('\r\n')
+          }
+          item.scrapedForSalary = true;
+          mdao.updateItem(item);
+        })
+      });
+    }
+  })
+}
+
+
+
+
 
 module.exports = scraper;

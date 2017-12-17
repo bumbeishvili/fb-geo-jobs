@@ -35,6 +35,16 @@ app.get('/insertNew', (req, res) => {
 })
 
 
+
+app.get('/updateSalaries', (req, res) => {
+ 
+  scraper.updateSalaries()
+    .then(function (result) {
+      res.send('updated 30 salaries');
+    })
+})
+
+
 app.get('/post', (req, res) => {
 
   if (status == statuses.processing) {

@@ -7,13 +7,6 @@ fbApi.router = express.Router();
 
 
 
-
-
-
-
-
-
-
 fbApi.startPosting = function (unposted) {
   var db = mdao.getDB();
   console.log('got db')
@@ -24,7 +17,7 @@ fbApi.startPosting = function (unposted) {
 
     function post() {
       //get job, which was not posted yet
-      db.jobs.findOne({ hasSalary: true, posted: { $ne: true }, type: { $nin: filteredTypes } }, (err, item) => {
+      db.jobs.findOne({ scrapedForSalary: true, posted: { $ne: true }, type: { $nin: filteredTypes } }, (err, item) => {
         console.log('Trying to post ', item);
         if (err) {
           console.log(err);
@@ -35,6 +28,7 @@ fbApi.startPosting = function (unposted) {
           clearInterval(interval);
           console.log('Done!');
           resolve('done');
+          return;
         }
         postToFB(item, filteredTypes);
       });
@@ -47,7 +41,7 @@ fbApi.startPosting = function (unposted) {
 function postToFB(item, filteredTypes) {
   FB.setAccessToken(utils.getAccessToken(item));
   var fbPost = {
-    message: `${item.pos} \r\n ${item.company}\r\n ბოლო ვადა ${item.validTill}`,
+    message: (item.salary ? (item.salary + "\r\n") : "") + `${item.pos} \r\n ${item.company}\r\n ბოლო ვადა ${item.validTill}`,
     link: item.link,
     name: item.pos
   }
@@ -59,7 +53,8 @@ function postToFB(item, filteredTypes) {
         return;
       }
       console.log('New Post - : ', res.id, ' - ');
-      mdao.setAsPosted(item);
+      item.posted = true;
+      mdao.updateItem(item);
     });
 }
 
