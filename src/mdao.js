@@ -17,10 +17,9 @@ mdao.filterNewJobs = function (scrapedData) {
   var db = mdao.getDB();
   return new Promise((resolve, reject) => {
     db.jobs.find(function (err, dbData) {
-      var newData = [];
-      var ids = dbData.map(item => item.compositeId);
+      var ids = dbData.map(item => item.compositeID);
       var newData = scrapedData.filter(scrapedItem => {
-        return ids.indexOf(scrapedItem.compositeId) == -1;
+        return ids.indexOf(scrapedItem.compositeID) == -1;
       })
       resolve(newData);
     }) // end of find

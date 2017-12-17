@@ -15,6 +15,8 @@ var status = statuses.idle;
 const express = require('express');
 const app = express();
 
+app.use('/fbApi', fbApi.router);
+
 
 app.get('/insertNew', (req, res) => {
   scraper.crawle()
@@ -34,7 +36,7 @@ app.get('/insertNew', (req, res) => {
 
 
 app.get('/post', (req, res) => {
-  
+
   if (status == statuses.processing) {
     res.send('Already Processing');
     return;

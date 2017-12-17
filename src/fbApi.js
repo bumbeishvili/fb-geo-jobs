@@ -1,12 +1,13 @@
+var fbApi = {};
 var FB = require('fb');
 var mdao = require('./mdao.js');
 var utils = require('./utils.js');
 var express = require('express');
-var router = express.Router();
+fbApi.router = express.Router();
 
 
 
-var fbApi = {};
+
 
 
 
@@ -23,7 +24,7 @@ fbApi.startPosting = function (unposted) {
 
     function post() {
       //get job, which was not posted yet
-      db.jobs.findOne({ posted: { $ne: true }, type: { $nin: filteredTypes } }, (err, item) => {
+      db.jobs.findOne({ hasSalary: true, posted: { $ne: true }, type: { $nin: filteredTypes } }, (err, item) => {
         console.log('Trying to post ', item);
         if (err) {
           console.log(err);
@@ -46,7 +47,7 @@ fbApi.startPosting = function (unposted) {
 function postToFB(item, filteredTypes) {
   FB.setAccessToken(utils.getAccessToken(item));
   var fbPost = {
-    message: `${item.company}\r\n ბოლო ვადა ${item.validTill}`,
+    message: `${item.pos} \r\n ${item.company}\r\n ბოლო ვადა ${item.validTill}`,
     link: item.link,
     name: item.pos
   }
@@ -65,7 +66,7 @@ function postToFB(item, filteredTypes) {
 
 
 // For extended access token
-router.get('/extendAccessToken/:appId/:appSecret/:token', function (req, nodeRes, next) {
+fbApi.router.get('/extendAccessToken/:appId/:appSecret/:token', function (req, nodeRes, next) {
   const client_id = req.params.appId;
   const client_secret = req.params.appSecret;
   const existing_access_token = req.params.token;

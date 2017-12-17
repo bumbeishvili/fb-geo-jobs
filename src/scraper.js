@@ -11,15 +11,71 @@ scraper.configs = {
       scrapingMethod: 'jobsge',
       categories: [
         {
-          id: "finance",
+          id: "financeWithoutSalary",
           name: "ფინანსები",
           url: "http://www.jobs.ge/?page=1&keyword=&cat=finance&location=&view=",
-          fb: "finance"
+          fb: "finance",
         }, {
-          id: "it",
-          name: "IT",
+          id: "financeWithSalary",
+          name: "ფინანსები ხელფასით",
+          url: "http://jobs.ge/?page=1&keyword=&cat=finance&location=&view=&with_salary=yes",
+          fb: "finance",
+          hasSalary: true,
+        }, {
+          id: "itWithoutSalary",
+          name: "IT With Salary",
           url: "http://www.jobs.ge/?page=1&keyword=&cat=it&location=&view=",
           fb: "it"
+        }, {
+          id: "itWithSalary",
+          name: "IT With Salary",
+          url: "http://jobs.ge/?page=1&keyword=&cat=it&location=&view=&with_salary=yes",
+          fb: "it",
+          hasSalary: true
+        }, {
+          id: "technicalWithSalary",
+          name: "Technical and logistics with salary",
+          url: "http://jobs.ge/?page=1&keyword=&cat=technical&location=&view=&with_salary=yes",
+          fb: "technical",
+          hasSalary: true
+        }, {
+          id: "technicalWithoutSalary",
+          name: "Technical and logistics without salary",
+          url: "http://jobs.ge/?page=1&keyword=&cat=technical&location=&view=",
+          fb: "technical"
+        }, {
+          id: "salesWithoutSalary",
+          name: "Sales Without Salary",
+          url: "http://jobs.ge/?page=1&keyword=&cat=sales&location=&view=",
+          fb: "sales"
+        }, {
+          id: "salesWithSalary",
+          name: "Sales With Salary",
+          url: "http://jobs.ge/?page=1&keyword=&cat=sales&location=&view=&with_salary=yes",
+          fb: "sales",
+          hasSalary: true
+        }, {
+          id: "legalWithoutSalary",
+          name: "Legal Without Salary",
+          url: "http://jobs.ge/?page=1&keyword=&cat=law&location=&view=",
+          fb: "legal"
+        }, {
+          id: "legalWithSalary",
+          name: "Legal With Salary",
+          url: "http://jobs.ge/?page=1&keyword=&cat=law&location=&view=&with_salary=yes",
+          fb: "legal",
+          hasSalary: true
+        }, {
+          id: "healthcareWithoutSalary",
+          name: "healthcare Without Salary",
+          url: "http://jobs.ge/?page=1&keyword=&cat=healthcare&location=&view=",
+          fb: "healthcare"
+        }, {
+          id: "healthcareWithSalary",
+          name: "healthcare With Salary",
+          url: "http://jobs.ge/?page=1&keyword=&cat=healthcare&location=&view=&with_salary=yes",
+          fb: "healthcare",
+          hasSalary: true
         }
       ]
     }
@@ -46,7 +102,8 @@ scraper.crawle = function () {
           if (counter == total) {
             var combinedArrays = utils.combineArrays(totalResult)
             combinedArrays.forEach(utils.setCompositeID);
-            resolve(combinedArrays);
+            var mergedResults = utils.mergeWithCompositeID(combinedArrays)
+            resolve(mergedResults);
           }
         }, counter)
       })
@@ -85,7 +142,9 @@ function jobsGeCrawler(category, callback) {
               company: d[3].text,
               postedOn: d[4].text,
               validTill: d[5].text,
-              type: category.id,
+              type: category.fb,
+              hasSalary: category.hasSalary,
+              createdAt: new Date()
             }
           })
         console.log('Got result of of length', jobs.length);

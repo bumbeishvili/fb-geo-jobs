@@ -1,3 +1,5 @@
+require('./prototypes.js');
+
 var utils = {};
 
 utils.getAccessToken = function (item) {
@@ -46,10 +48,28 @@ utils.combineArrays = function (arrOfarrs) {
 
 utils.setCompositeID = function (obj) {
   obj.compositeID = obj.link;
-  if(obj.createDate){
+  if (obj.createDate) {
     obj.createDate = new Date();
   }
 }
 
+utils.mergeWithCompositeID = function (arr) {
+  console.log('started merging of ' + arr.length + " item");
+  var grouped = arr.$groupBy(['compositeID']);
+  console.log('successfully grouped ' +grouped.length + " item");
+  var result = grouped.map(d => {
+    var res;
+    d.values.forEach(obj => {
+      if (!res) {
+        res = obj;
+      }
+      if (!res.hasSalary) {
+        res.hasSalary = obj.hasSalary
+      }
+    })
+    return res;
+  });
+  return result;
+}
 
 module.exports = utils;
