@@ -31,7 +31,7 @@ app.get('/insertNew', (req, res) => {
     })
     .then(function (dbData) {
       console.log('inserted jobs, print statistics')
-      res.json({ count: dbData.length });
+      res.send(dbData);
     })
 })
 

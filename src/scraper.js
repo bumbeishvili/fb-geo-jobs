@@ -128,13 +128,32 @@ scraper.configs = {
           hasSalary: true
         }
       ]
+    }, {
+      siteName: 'www.hr.gov.ge',
+      scrapingMethod: 'hrgov',
+      categories: [
+        {
+          id: "itWithSalaryHrGovGe",
+          name: "hrGov.ge - it With Salary",
+          url: "https://www.hr.gov.ge/?vacansyNum=12",
+          fb: "it",
+          hasSalary: true
+        }, {
+          id: "financeWithSalaryHrGovGe",
+          name: "hrGov.ge - finance With Salary",
+          url: "https://www.hr.gov.ge/?vacansyNum=76",
+          fb: "finance",
+          hasSalary: true
+        }
+      ]
     }
   ]
 }
 
 scraper.scrapingMethods = {
   jobsge: jobsGeCrawler,
-  workge: workGeCrawler
+  workge: workGeCrawler,
+  hrgov: hrGovGeCrawler
 };
 
 scraper.crawle = function () {
@@ -216,6 +235,50 @@ function jobsGeCrawler(category, callback) {
   c.queue(category.url);
 }
 
+
+function hrGovGeCrawler(category, callback) {
+  var c = new Crawler({
+    maxConnections: 10,
+    // This will be called for each crawled page
+    callback: function (error, res, done) {
+      if (error) {
+        console.log(error);
+      } else {
+        var $ = res.$;
+        var jobs = $('#activeVaks tbody tr')
+          .map((i, d) => $(d).find('td'))
+          .map((i, d) => {
+            return {
+              site: 'hr.gov.ge',
+              link: "https://www.hr.gov.ge" + $(d[1]).find('a').attr('href'),
+              salary: null,
+              pos: $(d[1]).text().trim(),
+              company: $(d[2]).text().trim(),
+              postedOn: null,
+              validTill: $(d[3]).text().trim(),
+              type: category.fb,
+              hasSalary: category.hasSalary,
+              createdAt: new Date()
+            }
+          })
+
+        console.log('Got result of of length', jobs.length);
+
+        var result = [];
+        for (var i = 0; i < jobs.length; i++) {
+          result.push(utils.cleanStrings(jobs[i]));
+        }
+
+
+        if (typeof callback == 'function') {
+          callback(result);
+        }
+      }
+      done();
+    }
+  })
+  c.queue(category.url);
+}
 
 
 function workGeCrawler(category, callback) {

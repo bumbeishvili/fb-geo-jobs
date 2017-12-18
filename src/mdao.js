@@ -30,9 +30,7 @@ mdao.insertNewJobs = function (newData) {
   var db = mdao.getDB();
   return new Promise((resolve, reject) => {
     db.jobs.insert(newData, () => {
-      db.jobs.find(function (err, dbData) {
-        resolve(dbData);
-      })// end of find
+      resolve('inserted')// end of find
     }); //end of insert
   }); //end of promise
 }// end of function
