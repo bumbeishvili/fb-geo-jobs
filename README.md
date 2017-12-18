@@ -24,7 +24,7 @@
 
 # Possible Sources 
 - [x]  [Jobs.ge](www.Jobs.ge)
-- [ ]  [Work.ge](www.work.ge)  
+- [x]  [Work.ge](www.work.ge)  
 - [ ]  [jobs.on.ge](www.jobs.on.ge)  
 - [ ]  [hr.ge](www.hr.ge)  
 - [ ]  [hr.gov.ge](www.hr.gov.ge)  
