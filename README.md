@@ -25,12 +25,12 @@
 # Possible Sources 
 - [x]  [Jobs.ge](www.Jobs.ge)
 - [x]  [Work.ge](www.work.ge)  
-- [ ]  [jobs.on.ge](www.jobs.on.ge)  
-- [ ]  [hr.ge](www.hr.ge)  
 - [ ]  [hr.gov.ge](www.hr.gov.ge)  
-- [ ]  [myjobs.ge](www.myjobs.ge)  
-- [ ]  [career.ge](www.career.ge)  
 - [ ]  [cv.ge](www.cv,ge)  
+- [ ]  [hr.ge](www.hr.ge)  
+- [ ]  [career.ge](www.career.ge) 
+- [ ]  [myjobs.ge](www.myjobs.ge)  
+- [ ]  [jobs.on.ge](www.jobs.on.ge)  
 - [ ]  [dasaqmeba.ge](www.dasaqmeba.ge)  
 
 
