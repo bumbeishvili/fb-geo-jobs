@@ -77,6 +77,55 @@ scraper.configs = {
           url: "http://jobs.ge/?page=1&keyword=&cat=healthcare&location=&view=&with_salary=yes",
           fb: "healthcare",
           hasSalary: true
+        }, {
+          id: "itWithSalaryWorkGe",
+          name: "work.ge - it With Salary",
+          url: "https://work.ge/category/it_dizaini_interneti_media",
+          fb: "it",
+          hasSalary: true
+        }
+      ]
+    }, {
+      siteName: 'www.work.ge',
+      scrapingMethod: 'workge',
+      categories: [
+        {
+          id: "itWithSalaryWorkGe",
+          name: "work.ge - it With Salary",
+          url: "https://work.ge/category/it_dizaini_interneti_media",
+          fb: "it",
+          hasSalary: true
+        }, {
+          id: "financeWithSalaryWorkGe",
+          name: "work.ge - finance With Salary",
+          url: "https://work.ge/category/finance_accounting_audit",
+          fb: "finance",
+          hasSalary: true
+        }, {
+          id: "dacvaWithSalaryWorkGe",
+          name: "work.ge - dacva With Salary",
+          url: "https://work.ge/category/dacva_usafrtkhoeba",
+          fb: "technical",
+          hasSalary: true
+        }, {
+          id: "logWithSalaryWorkGe",
+          name: "work.ge - log With Salary",
+          url: "https://work.ge/category/dacva_usafrtkhoeba",
+          fb: "technical",
+          hasSalary: true
+        }, {
+          id: "healthWithSalaryWorkGe",
+          name: "work.ge - health With Salary",
+          fb: "healthcare",
+          url: "https://work.ge/category/health-care_medicine_Pharmaceuticals",
+          fb: "healthcare",
+          hasSalary: true
+        }, {
+          id: "salesWithSalaryWorkGe",
+          name: "work.ge - sales With Salary",
+          url: "https://work.ge/category/gakidvebi",
+          fb: "sales",
+          hasSalary: true
         }
       ]
     }
@@ -84,7 +133,8 @@ scraper.configs = {
 }
 
 scraper.scrapingMethods = {
-  jobsge: jobsGeCrawler
+  jobsge: jobsGeCrawler,
+  workge: workGeCrawler
 };
 
 scraper.crawle = function () {
@@ -98,7 +148,7 @@ scraper.crawle = function () {
         console.log(`Crawling ${site.siteName} => ${category.id}`);
         scraper.scrapingMethods[site.scrapingMethod](category, function (result) {
           counter++;
-          console.log(`Left  ${total - counter} response`);
+          console.log(`Left   ${total - counter} response`);
           totalResult.push(result)
           if (counter == total) {
             var combinedArrays = utils.combineArrays(totalResult)
@@ -148,6 +198,56 @@ function jobsGeCrawler(category, callback) {
               createdAt: new Date()
             }
           })
+        console.log('Got result of of length', jobs.length);
+
+        var result = [];
+        for (var i = 0; i < jobs.length; i++) {
+          result.push(utils.cleanStrings(jobs[i]));
+        }
+
+
+        if (typeof callback == 'function') {
+          callback(result);
+        }
+      }
+      done();
+    }
+  })
+  c.queue(category.url);
+}
+
+
+
+function workGeCrawler(category, callback) {
+  var c = new Crawler({
+    maxConnections: 10,
+    // This will be called for each crawled page
+    callback: function (error, res, done) {
+      if (error) {
+        console.log(error);
+      } else {
+        var $ = res.$;
+
+
+        var jobs = $('.data-list .data-row')
+          .map((i, d) => $(d).find('.data-cell'))
+          .filter(i => i > 0)
+          .map((i, d) => {
+            return {
+              site: 'work.ge',
+              link: $(d[0]).find('a').attr('href'),
+              salary: "ანაზღაურება " + $(d[2]).text().trim() + " ლარი ",
+              pos: $(d[0]).text().trim(),
+              company: $(d[1]).text().trim(),
+              postedOn: $(d[4]).text().trim(),
+              validTill: $(d[4]).text().trim(),
+              type: category.fb,
+              hasSalary: category.hasSalary,
+              scrapedForSalary: true,
+              createdAt: new Date()
+            }
+          })
+
         console.log('Got result of of length', jobs.length);
 
         var result = [];
