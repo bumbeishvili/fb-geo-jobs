@@ -26,7 +26,7 @@
 - [x]  [Jobs.ge](http://www.Jobs.ge)
 - [x]  [Work.ge](http://www.work.ge)  
 - [ ]  [hr.gov.ge](http://www.hr.gov.ge)  
-- [ ]  [cv.ge](http://www.cv,ge)  
+- [ ]  [cv.ge](http://www.cv.ge)  
 - [ ]  [hr.ge](http://www.hr.ge)  
 - [ ]  [career.ge](http://www.career.ge) 
 - [ ]  [myjobs.ge](http://www.myjobs.ge)  
