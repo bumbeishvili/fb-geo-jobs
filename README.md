@@ -23,15 +23,15 @@
 1. [Legal Jobs Georgia](https://www.facebook.com/Legal-Jobs-Georgia-188338208413379/)
 
 # Possible Sources 
-* [Jobs.ge](www.Jobs.ge)
-* [Work.ge](www.work.ge)  
-* [jobs.on.ge](www.jobs.on.ge)  
-* [hr.ge](www.hr.ge)  
-* [hr.gov.ge](www.hr.gov.ge)  
-* [myjobs.ge](www.myjobs.ge)  
-* [career.ge](www.career.ge)  
-* [cv.ge](www.cv,ge)  
-* [dasaqmeba.ge](www.dasaqmeba.ge)  
+- [x]  [Jobs.ge](www.Jobs.ge)
+- [ ]  [Work.ge](www.work.ge)  
+- [ ]  [jobs.on.ge](www.jobs.on.ge)  
+- [ ]  [hr.ge](www.hr.ge)  
+- [ ]  [hr.gov.ge](www.hr.gov.ge)  
+- [ ]  [myjobs.ge](www.myjobs.ge)  
+- [ ]  [career.ge](www.career.ge)  
+- [ ]  [cv.ge](www.cv,ge)  
+- [ ]  [dasaqmeba.ge](www.dasaqmeba.ge)  
 
 
 
