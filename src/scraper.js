@@ -1,4 +1,6 @@
 var Crawler = require('crawler');
+var querystring = require('querystring');
+var request = require('request');
 var utils = require('./utils.js');
 var mdao = require('./mdao.js');
 require('./prototypes.js');
@@ -146,6 +148,19 @@ scraper.configs = {
           hasSalary: true
         }
       ]
+    }, {
+      siteName: 'www.myjobs.ge',
+      scrapingMethod: 'myjobs',
+      categories: [
+        {
+          name: "myjobs it",
+          vacancyLinkTemplate: "https://www.myjobs.ge/ka/vacancy?vac_id=",
+          urlTemplate: "https://www.myjobs.ge/block/daily_vacancies.php",
+          cat_id: 1,
+          fb: "it",
+          hasSalary: true
+        }
+      ]
     }
   ]
 }
@@ -153,7 +168,8 @@ scraper.configs = {
 scraper.scrapingMethods = {
   jobsge: jobsGeCrawler,
   workge: workGeCrawler,
-  hrgov: hrGovGeCrawler
+  hrgov: hrGovGeCrawler,
+  myjobs: myJobsCrawler
 };
 
 scraper.crawle = function () {
@@ -181,6 +197,58 @@ scraper.crawle = function () {
   })
 }
 
+
+
+function myJobsCrawler(category, callback) {
+  var form = {
+    cat_id: category.cat_id
+  };
+
+  var formData = querystring.stringify(form);
+  var contentLength = formData.length;
+
+  //   name: "myjobs it",
+  //     vacancyLinkTemplate: "https://www.myjobs.ge/ka/vacancy?vac_id=",
+  //       urlTemplate: "https://www.myjobs.ge/block/daily_vacancies.php",
+  //         cat_id: 1,
+  //           fb: "it",
+  //             hasSalary: true
+  // }
+
+  request({
+    headers: {
+      'Content-Length': contentLength,
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    uri: category.urlTemplate,
+    body: formData,
+    method: 'POST'
+  }, function (err, res, body) {
+    var result = JSON.parse(body).vacancies.map(d => {
+      return {
+        site: 'myjobs.ge',
+        postedOn: d.date[0] + " / " + d.date[1],
+        validTill: d.date[2] + " / " + d.date[3],
+        type: category.fb,
+        hasSalary:d.salary ? true: null,
+        createdAt: new Date(),
+        pos: d.vac_title,
+        company: d.comp_title,
+        salary: d.salary ? d.salary : null,
+        scrapedForSalary: d.salary ? true: null,
+        link: category.vacancyLinkTemplate + d.id,
+      }
+
+    })
+
+    if (typeof callback == 'function') {
+      callback(result);
+    }
+
+  });
+
+
+}
 
 
 function jobsGeCrawler(category, callback) {
