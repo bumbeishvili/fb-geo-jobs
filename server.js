@@ -36,6 +36,14 @@ app.get('/insertNew', (req, res) => {
 })
 
 
+app.get('/stats', (req, res) => {
+  mdao.getUnpostedWithSalaryStatistics()
+    .then(stats => {
+      res.json(stats);
+    })
+})
+
+
 
 app.get('/updateSalaries', (req, res) => {
   if (salaryStatus == statuses.processing) {

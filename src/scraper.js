@@ -25,6 +25,17 @@ scraper.configs = {
           fb: "finance",
           hasSalary: true,
         }, {
+          id: "prWithoutSalary",
+          name: "pr",
+          url: "http://jobs.ge/?page=1&keyword=&cat=prmarketing&location=&view=",
+          fb: "pr",
+        }, {
+          id: "fprWithSalary",
+          name: "pr ხელფასით",
+          url: "http://jobs.ge/?page=1&keyword=&cat=prmarketing&location=&view=&with_salary=yes",
+          fb: "pr",
+          hasSalary: true,
+        }, {
           id: "itWithoutSalary",
           name: "IT With Salary",
           url: "http://www.jobs.ge/?page=1&keyword=&cat=it&location=&view=",
@@ -79,12 +90,6 @@ scraper.configs = {
           url: "http://jobs.ge/?page=1&keyword=&cat=healthcare&location=&view=&with_salary=yes",
           fb: "healthcare",
           hasSalary: true
-        }, {
-          id: "itWithSalaryWorkGe",
-          name: "work.ge - it With Salary",
-          url: "https://work.ge/category/it_dizaini_interneti_media",
-          fb: "it",
-          hasSalary: true
         }
       ]
     }, {
@@ -127,6 +132,24 @@ scraper.configs = {
           name: "work.ge - sales With Salary",
           url: "https://work.ge/category/gakidvebi",
           fb: "sales",
+          hasSalary: true
+        }, {
+          id: "legalWithSalaryWorkGe",
+          name: "work.ge - legal With Salary",
+          url: "https://work.ge/category/iurisprudencia",
+          fb: "legal",
+          hasSalary: true
+        }, {
+          id: "marketingWithSalaryWorkGe",
+          name: "work.ge - marketing With Salary",
+          url: "https://work.ge/category/marketingi_reklama_pr",
+          fb: "pr",
+          hasSalary: true
+        }, {
+          id: "technicalWithSalaryWorkGe",
+          name: "work.ge - technical real With Salary",
+          url: "https://work.ge/category/construction-real-estate",
+          fb: "technical",
           hasSalary: true
         }
       ]
@@ -230,12 +253,12 @@ function myJobsCrawler(category, callback) {
         postedOn: d.date[0] + " / " + d.date[1],
         validTill: d.date[2] + " / " + d.date[3],
         type: category.fb,
-        hasSalary:d.salary ? true: null,
+        hasSalary: d.salary ? true : null,
         createdAt: new Date(),
         pos: d.vac_title,
         company: d.comp_title,
         salary: d.salary ? d.salary : null,
-        scrapedForSalary: d.salary ? true: null,
+        scrapedForSalary: d.salary ? true : null,
         link: category.vacancyLinkTemplate + d.id,
       }
 

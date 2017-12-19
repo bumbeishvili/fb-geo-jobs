@@ -1,4 +1,6 @@
 var mongojs = require('mongojs');
+require('./prototypes.js');
+
 var mdao = {};
 
 
@@ -54,5 +56,20 @@ mdao.updateItem = function (item) {
   }); //end of promise
 }
 
+
+
+mdao.getUnpostedWithSalaryStatistics = function () {
+  var db = mdao.getDB();
+  return new Promise((resolve, reject) => {
+    db.jobs.find({ posted: { $ne: true }, hasSalary: true, }, (err, unposted) => {
+      var stats = {
+        total: unposted.length,
+        scrapedForSalary: unposted.filter(d => d.scrapedForSalary).length,
+        details: unposted.$groupBy(['type']).map(d => { return { name: d.type, count: d.values.length } })
+      }
+      resolve(stats);
+    });// end of db access
+  }); //end of promise
+}// end of function
 
 module.exports = mdao;

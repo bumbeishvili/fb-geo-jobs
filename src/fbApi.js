@@ -43,7 +43,7 @@ function postToFB(item, filteredTypes) {
   var fbPost = {
     message: (item.salary ? (item.salary + "\r\n") : "") + `${item.pos} \r\n ${item.company}\r\n ბოლო ვადა ${item.validTill}`,
     link: item.link,
-    name: item.pos
+    name: item.pos.slice(0,50)
   }
   var body =
     FB.api('me/feed', 'post', fbPost, function (res) {
