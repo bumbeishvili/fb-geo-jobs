@@ -194,6 +194,41 @@ scraper.configs = {
           cat_id: 1,
           fb: "it",
           hasSalary: true
+        }, {
+          name: "myjobs legal",
+          vacancyLinkTemplate: "https://www.myjobs.ge/ka/vacancy?vac_id=",
+          urlTemplate: "https://www.myjobs.ge/block/daily_vacancies.php",
+          cat_id: 14,
+          fb: "legal",
+          hasSalary: true
+        }, {
+          name: "myjobs pr",
+          vacancyLinkTemplate: "https://www.myjobs.ge/ka/vacancy?vac_id=",
+          urlTemplate: "https://www.myjobs.ge/block/daily_vacancies.php",
+          cat_id: 5,
+          fb: "pr",
+          hasSalary: true
+        }, {
+          name: "myjobs healthcare",
+          vacancyLinkTemplate: "https://www.myjobs.ge/ka/vacancy?vac_id=",
+          urlTemplate: "https://www.myjobs.ge/block/daily_vacancies.php",
+          cat_id: 6,
+          fb: "healthcare",
+          hasSalary: true
+        }, {
+          name: "myjobs realties",
+          vacancyLinkTemplate: "https://www.myjobs.ge/ka/vacancy?vac_id=",
+          urlTemplate: "https://www.myjobs.ge/block/daily_vacancies.php",
+          cat_id: 7,
+          fb: "technical",
+          hasSalary: true
+        }, {
+          name: "myjobs finances,accounting , banking",
+          vacancyLinkTemplate: "https://www.myjobs.ge/ka/vacancy?vac_id=",
+          urlTemplate: "https://www.myjobs.ge/block/daily_vacancies.php",
+          cat_id: 24,
+          fb: "finance",
+          hasSalary: true
         }
       ]
     }
