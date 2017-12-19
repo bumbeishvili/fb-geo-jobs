@@ -169,6 +169,18 @@ scraper.configs = {
           url: "https://www.hr.gov.ge/?vacansyNum=76",
           fb: "finance",
           hasSalary: true
+        }, {
+          id: "auditWithSalaryHrGovGe",
+          name: "hrGov.ge - audit With Salary",
+          url: "https://www.hr.gov.ge/?vacansyNum=2",
+          fb: "finance",
+          hasSalary: true
+        }, {
+          id: "legalWithSalaryHrGovGe",
+          name: "hrGov.ge - legal With Salary",
+          url: "https://www.hr.gov.ge/?vacansyNum=10",
+          fb: "legal",
+          hasSalary: true
         }
       ]
     }, {
