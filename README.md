@@ -10,7 +10,6 @@
  # Pages
  1. [Finance Jobs Georgia](https://www.facebook.com/Finance-Jobs-Georgia-546487785704283/notifications/)  
 
- 
 1. [IT Jobs Georgia](https://m.facebook.com/it.jobs.georgia/?ref=m_notif&notif_t=page_fan&notif_id=1513417791792385)  
 
 1. [Healthcare Jobs Georgia](https://www.facebook.com/Healthcare-Jobs-Georgia-2050702558550269/?ref=bookmarks)
@@ -19,8 +18,17 @@
 
 1. [Logistics  and Technical Jobs Georgia ](https://www.facebook.com/Logistics-and-Technical-Jobs-Georgia-402984570136030/)
 
-
 1. [Legal Jobs Georgia](https://www.facebook.com/Legal-Jobs-Georgia-188338208413379/)
+
+1. [Marketing and pr Jobs Georgia](https://www.facebook.com/Marketing-and-PR-Jobs-Georgia-556975351308499/?ref=bookmarks)  
+
+1. [Accounting Jobs Georgia](https://www.facebook.com/Accounting-Jobs-Georgia-1732799336751103/?ref=bookmarks)  
+
+1. [Programming Jobs Georgia](https://www.facebook.com/Programming-Jobs-Georgia-165053797584184/?ref=bookmarks)  
+
+1. [Top Jobs Georgia](https://www.facebook.com/Top-Jobs-Georgia-167097317241021/)
+
+
 
 # Possible Sources 
 - [x]  [Jobs.ge](http://www.Jobs.ge)
