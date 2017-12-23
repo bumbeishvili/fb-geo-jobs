@@ -362,7 +362,6 @@ function jobsGeCrawler(category, callback) {
           result.push(utils.cleanStrings(jobs[i]));
         }
 
-
         if (typeof callback == 'function') {
           callback(result);
         }

@@ -2,6 +2,7 @@
 var scraper = require('./src/scraper.js');
 var mdao = require('./src/mdao.js');
 var fbApi = require('./src/fbApi.js');
+var utils = require('./src/utils.js');
 require('./src/prototypes.js');
 
 var statuses = {
@@ -27,6 +28,10 @@ app.get('/insertNew', (req, res) => {
     })
     .then(function (newJobs) {
       console.log(`got new  ${newJobs.length} jobs, inserting`)
+      return utils.setFlags(newJobs)
+    })
+    .then(function (newJobs) {
+      console.log(`got new  ${newJobs.length} jobs, inserting`)
       return mdao.insertNewJobs(newJobs)
     })
     .then(function (dbData) {
@@ -40,6 +45,14 @@ app.get('/stats', (req, res) => {
   mdao.getUnpostedWithSalaryStatistics()
     .then(stats => {
       res.json(stats);
+    })
+})
+
+
+app.get('/allItems', (req, res) => {
+  mdao.getAllItems()
+    .then(allItems => {
+      res.json(allItems);
     })
 })
 
@@ -61,7 +74,6 @@ app.get('/updateSalaries', (req, res) => {
 
 
 app.get('/post', (req, res) => {
-
   if (status == statuses.processing) {
     res.send('Already Processing');
     return;
@@ -74,6 +86,7 @@ app.get('/post', (req, res) => {
   })
 })
 
+
 app.get('/status/:newValue', (req, res, next) => {
   const newValue = req.params.newValue;
   res.send(0);
@@ -82,8 +95,24 @@ app.get('/status/:newValue', (req, res, next) => {
 
 app.get('/log', (req, res, next) => {
   res.send(0);;
-})
+});
 
+
+
+// updater
+// app.get('/setParsedSalariesAndSetFlags', (req, res) => {
+//   var db = mdao.getDB();
+//   var results = [];
+//   db.jobs.find((error, items) => {
+//     items.forEach((item, i) => {
+//       utils.setFlag(item);
+//       mdao.updateItem(item).then(d => {
+//         console.log('updated', i)
+//       });
+//     });
+//   });
+//   res.send('good')
+// })
 
 var port = process.env.PORT || 3000;
 app.listen(port, () => console.log('Example app listening on port 3000!'))

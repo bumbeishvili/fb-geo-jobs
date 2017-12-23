@@ -72,4 +72,14 @@ mdao.getUnpostedWithSalaryStatistics = function () {
   }); //end of promise
 }// end of function
 
+mdao.getAllItems = function () {
+  var db = mdao.getDB();
+  return new Promise((resolve, reject) => {
+    db.jobs.find((err, allItems) => {
+      resolve(allItems);
+    });// end of db access
+  }); //end of promise
+}// end of function
+
+
 module.exports = mdao;

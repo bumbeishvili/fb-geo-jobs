@@ -56,7 +56,7 @@ utils.setCompositeID = function (obj) {
 utils.mergeWithCompositeID = function (arr) {
   console.log('started merging of ' + arr.length + " item");
   var grouped = arr.$groupBy(['compositeID']);
-  console.log('successfully grouped ' +grouped.length + " item");
+  console.log('successfully grouped ' + grouped.length + " item");
   var result = grouped.map(d => {
     var res;
     d.values.forEach(obj => {
@@ -71,5 +71,57 @@ utils.mergeWithCompositeID = function (arr) {
   });
   return result;
 }
+
+
+
+
+utils.setFlags = function (newItems) {
+  return new Promise((resolve, reject) => {
+    newItems.forEach(utils.setFlag);
+  }); //end of promise
+};
+
+utils.setFlag = function (d) {
+  if (isProgrammer(d)) { d.isProgrammer = true; };
+  if (isAccountant(d)) { d.isAccountant = true; }
+  setSalary(d);
+};
+
+function isProgrammer(job) {
+  var isProg = false;
+  var checkWords = ['პროგრამისტ', 'დეველოპერ', 'python', 'javascript', '.net', 'php'];
+  for (var i = 0; i < checkWords.length; i++) {
+    if (job.pos != null && job.pos.indexOf(checkWords[i]) != -1) {
+      isProg = true;
+      break;
+    }
+  }
+  return isProg;
+}
+
+function isAccountant(job) {
+  var is = false;
+  var checkWords = ['IFRS', 'ბუღალტ', 'აუდიტ', 'ანგარიშგებ', 'აღრიცხ', 'ფინანს'];
+  for (var i = 0; i < checkWords.length; i++) {
+    if (job.pos != null && job.pos.indexOf(checkWords[i]) != -1) {
+      is = true;
+      break;
+    }
+  }
+  return is;
+}
+
+function setSalary(obj) {
+  if (obj.hasSalary && obj.salary) {
+    var salaries = obj.salary.match(/[\d,\, ]+/g)
+      .map(m => m.trim())
+      .map(m => m.replace(/[\,,\s]/g, ""))
+      .filter(m => m)
+      .map(p => parseInt(p));
+    obj.maxSalary = salaries.$max();
+    obj.minSalary = salaries.$min();
+  }
+}
+
 
 module.exports = utils;

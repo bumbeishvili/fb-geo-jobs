@@ -30,12 +30,86 @@ fbApi.startPosting = function (unposted) {
           resolve('done');
           return;
         }
-        postToFB(item, filteredTypes);
+
+        if (item.isAccountant && !item.isAccPosted && item.maxSalary > 1000) {
+          postToAccJob(item, filteredTypes);
+        } else if (item.isProgrammer && !item.isDevPosted && item.maxSalary > 1500) {
+          postToDevJob(item, filteredTypes);
+        } else if (item.maxSalary > 3000 && !item.isTopPosted) {
+          postToTopJob(item, filteredTypes);
+        } else if (!item.posted) {
+          postToFB(item, filteredTypes);
+        }
+
       });
     }
 
   }); //end of promise
 }// end of function
+
+function postToDevJob(item, filteredTypes) {
+  FB.setAccessToken(utils.getAccessToken({ "type": 'programming' }));
+  var fbPost = {
+    message: (item.salary ? (item.salary + "\r\n") : "") + `${item.pos} \r\n ${item.company}\r\n ბოლო ვადა ${item.validTill}`,
+    link: item.link,
+    name: item.pos.slice(0, 50)
+  }
+  var body =
+    FB.api('me/feed', 'post', fbPost, function (res) {
+      if (!res || res.error) {
+        filteredTypes.push(item.type);
+        console.log(!res ? 'error occurred' : res.error);
+        return;
+      }
+      console.log('New Post - : ', res.id, ' - ');
+      item.isDevPosted = true;
+      mdao.updateItem(item);
+    });
+}
+
+// todo refactor and make one func from these 4
+function postToTopJob(item, filteredTypes) {
+  FB.setAccessToken(utils.getAccessToken({ "type": 'top' }));
+  var fbPost = {
+    message: (item.salary ? (item.salary + "\r\n") : "") + `${item.pos} \r\n ${item.company}\r\n ბოლო ვადა ${item.validTill}`,
+    link: item.link,
+    name: item.pos.slice(0, 50)
+  }
+  var body =
+    FB.api('me/feed', 'post', fbPost, function (res) {
+      if (!res || res.error) {
+        filteredTypes.push(item.type);
+        console.log(!res ? 'error occurred' : res.error);
+        return;
+      }
+      console.log('New Post - : ', res.id, ' - ');
+      item.isTopPosted = true;
+      mdao.updateItem(item);
+    });
+}
+
+
+
+function postToAccJob(item, filteredTypes) {
+  FB.setAccessToken(utils.getAccessToken({ "type": 'accounting' }));
+  var fbPost = {
+    message: (item.salary ? (item.salary + "\r\n") : "") + `${item.pos} \r\n ${item.company}\r\n ბოლო ვადა ${item.validTill}`,
+    link: item.link,
+    name: item.pos.slice(0, 50)
+  }
+  var body =
+    FB.api('me/feed', 'post', fbPost, function (res) {
+      if (!res || res.error) {
+        filteredTypes.push(item.type);
+        console.log(!res ? 'error occurred' : res.error);
+        return;
+      }
+      console.log('New Post - : ', res.id, ' - ');
+      item.isAccPosted = true;
+      mdao.updateItem(item);
+    });
+}
+
 
 
 function postToFB(item, filteredTypes) {
@@ -43,7 +117,7 @@ function postToFB(item, filteredTypes) {
   var fbPost = {
     message: (item.salary ? (item.salary + "\r\n") : "") + `${item.pos} \r\n ${item.company}\r\n ბოლო ვადა ${item.validTill}`,
     link: item.link,
-    name: item.pos.slice(0,50)
+    name: item.pos.slice(0, 50)
   }
   var body =
     FB.api('me/feed', 'post', fbPost, function (res) {

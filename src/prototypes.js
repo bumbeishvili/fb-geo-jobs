@@ -62,3 +62,31 @@ Array.prototype.$shuffle = function () {
   }
   return a;
 }
+
+
+
+Array.prototype.$min = function (func) {
+  if (!this.length) return;
+  if (!func) { func = (i) => i };
+  var result = Infinity;
+  for (var i = 0; i < this.length; i++) {
+    if (result > func(this[i])) {
+      result = func(this[i]);
+    }
+  }
+  return result;
+}
+
+
+
+Array.prototype.$max = function (func) {
+  if (!this.length) return;
+  if (!func) { func = (i) => i };
+  var result = -Infinity;
+  for (var i = 0; i < this.length; i++) {
+    if (result < func(this[i])) {
+      result = func(this[i]);
+    }
+  }
+  return result;
+}
