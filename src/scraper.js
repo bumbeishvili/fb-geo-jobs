@@ -515,6 +515,7 @@ scraper.updateSalaries = function () {
             item.salary = salary.join('\r\n')
           }
           item.scrapedForSalary = true;
+          utils.setFlag(item);
           mdao.updateItem(item);
         })
       });

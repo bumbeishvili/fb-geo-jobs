@@ -78,6 +78,7 @@ utils.mergeWithCompositeID = function (arr) {
 utils.setFlags = function (newItems) {
   return new Promise((resolve, reject) => {
     newItems.forEach(utils.setFlag);
+    return resolve(newItems);
   }); //end of promise
 };
 

@@ -31,6 +31,7 @@ mdao.filterNewJobs = function (scrapedData) {
 mdao.insertNewJobs = function (newData) {
   var db = mdao.getDB();
   return new Promise((resolve, reject) => {
+    debugger;
     db.jobs.insert(newData, () => {
       resolve('inserted')// end of find
     }); //end of insert
