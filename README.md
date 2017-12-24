@@ -24,7 +24,7 @@
 
 1. [Accounting Jobs Georgia](https://www.facebook.com/Accounting-Jobs-Georgia-1732799336751103/?ref=bookmarks)  
 
-1. [Programming Jobs Georgia](https://www.facebook.com/Programming-Jobs-Georgia-165053797584184/?ref=bookmarks)  
+1. [Dev Jobs Georgia](https://www.facebook.com/Programming-Jobs-Georgia-165053797584184/?ref=bookmarks)  
 
 1. [Top Jobs Georgia](https://www.facebook.com/Top-Jobs-Georgia-167097317241021/)
 
