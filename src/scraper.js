@@ -10,6 +10,78 @@ var scraper = {};
 scraper.configs = {
   sites: [
     {
+      siteName: 'www.hr.ge',
+      scrapingMethod: 'hrge',
+      categories: [
+        {
+          id: "finHrGe",
+          name: "hr.ge - fin With Salary",
+          url: "https://hr.ge/search-posting?category=6",
+          fb: "finance",
+        }, {
+          id: "technicalWithHrGe",
+          name: "hr.ge - technical With Salary",
+          url: "https://hr.ge/search-posting?category=4",
+          fb: "technical",
+        }, {
+          id: "technicalWithHrMotoAvtoGe",
+          name: "hr.ge - moto avto technical With Salary",
+          url: "https://hr.ge/search-posting?category=28",
+          fb: "technical",
+        }, {
+          id: "technicalWithCleaningHrGe",
+          name: "hr.ge - cleaning With Salary",
+          url: "https://hr.ge/search-posting?category=29",
+          fb: "technical",
+        }, {
+          id: "salesWithHrGe",
+          name: "hr.ge - sales With Salary",
+          url: "https://hr.ge/search-posting?category=2",
+          fb: "sales",
+        }, {
+          id: "itHrGe",
+          name: "hr.ge - ot With Salary",
+          url: "https://hr.ge/search-posting?category=13",
+          fb: "it",
+        },{
+          id: "legalHrGe",
+          name: "hr.ge - legal With Salary",
+          url: "https://hr.ge/search-posting?category=25",
+          fb: "legal",
+        },{
+          id: "logisticsHrGe",
+          name: "hr.ge - logistics With Salary",
+          url: "https://hr.ge/search-posting?category=14",
+          fb: "technical",
+        },{
+          id: "bankFinanceHrGe",
+          name: "hr.ge - finance bank With Salary",
+          url: "https://hr.ge/search-posting?category=5",
+          fb: "technical",
+        },{
+          id: "healthcareHrGe",
+          name: "hr.ge - healthcare  With Salary",
+          url: "https://hr.ge/search-posting?category=16",
+          fb: "healthcare",
+        },{
+          id: "restrHrGe",
+          name: "hr.ge - reastauran  With Salary",
+          url: "https://hr.ge/search-posting?category=22",
+          fb: "technical",
+        },{
+          id: "securityHrGe",
+          name: "hr.ge - security  With Salary",
+          url: "https://hr.ge/search-posting?category=10",
+          fb: "technical",
+        },{
+          id: "kithrGe",
+          name: "hr.ge - toolkit master  With Salary",
+          url: "https://hr.ge/search-posting?category=19",
+          fb: "technical",
+        }
+      ]
+    },
+    {
       siteName: 'www.jobs.ge',
       scrapingMethod: 'jobsge',
       categories: [
@@ -239,7 +311,8 @@ scraper.scrapingMethods = {
   jobsge: jobsGeCrawler,
   workge: workGeCrawler,
   hrgov: hrGovGeCrawler,
-  myjobs: myJobsCrawler
+  myjobs: myJobsCrawler,
+  hrge: hrgeCrawler
 };
 
 scraper.crawle = function () {
@@ -267,7 +340,52 @@ scraper.crawle = function () {
   })
 }
 
+function hrgeCrawler(category, callback) {
 
+  var c = new Crawler({
+    maxConnections: 10,
+    // This will be called for each crawled page
+    callback: function (error, res, done) {
+      if (error) {
+        console.log(error);
+      } else {
+        var $ = res.$;
+        var jobs = $('.vacanc tr').toArray().map(d => $(d).find('td').toArray())
+          .filter(d => d.length)
+          .map(d => {
+            var result = {
+              pos: $(d[0]).text(),
+              company: $(d[3]).text(),
+              valid: $(d[4]).find('.date').text(),
+              hasSalary: !!$(d[0]).find('.ccy-sym').length,
+              site: 'hr.ge',
+              link: "https://www.hr.ge" + decodeURI($(d[0]).find('a').attr('href')),
+              salary: null,
+              postedOn: $(d[4]).find('.date').text(),
+              validTill: $(d[4]).find('.date').text(),
+              type: category.fb,
+              createdAt: new Date()
+            };
+            return result;
+          })
+
+        console.log('Got result of of length', jobs.length);
+
+        var result = [];
+        for (var i = 0; i < jobs.length; i++) {
+          result.push(utils.cleanStrings(jobs[i]));
+        }
+
+        if (typeof callback == 'function') {
+          callback(result);
+        }
+      }
+      done();
+    }
+  })
+  c.queue(category.url);
+
+}
 
 function myJobsCrawler(category, callback) {
   var form = {
@@ -484,7 +602,7 @@ function salaryCrawler(item, callback) {
       done();
     }
   })
-  c.queue(item.link);
+  c.queue(encodeURI(item.link));
 }
 
 scraper.updateSalaries = function () {
