@@ -422,7 +422,7 @@ function myJobsCrawler(category, callback) {
         createdAt: new Date(),
         pos: d.vac_title,
         company: d.comp_title,
-        salary: d.salary ? d.salary : null,
+        salary: d.salary ? d.salary+" ლარი" : null,
         scrapedForSalary: d.salary ? true : null,
         link: category.vacancyLinkTemplate + d.id,
       }
