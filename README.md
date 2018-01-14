@@ -37,7 +37,7 @@
 - [x]  [myjobs.ge](http://www.myjobs.ge)  
 - [x]  [hr.ge](http://www.hr.ge)   
 - [ ]  ~~[cv.ge](http://www.cv.ge)~~ **Reason:** hr.ge dublicate content
-- [ ]  ~~[career.ge](http://www.career.ge)~~  **Reason:** Low quality categorization [See IT job example](https://career.ge/Vacancies/Details/211218)
+- [ ]  ~~[career.ge](http://www.career.ge)~~   **Reason:** hr.ge dublicate content
 - [ ]  ~~[jobs.on.ge](http://www.jobs.on.ge)~~ **Reason:** Small amount of jobs
 - [ ]  ~~[dasaqmeba.ge](http://www.dasaqmeba.ge)~~  **Reason:** Small amount of jobs
 
