@@ -31,11 +31,11 @@ fbApi.startPosting = function (unposted) {
           return;
         }
 
-        if (item.isAccountant && !item.isAccPosted && item.maxSalary > 1000) {
+        if (item.isAccountant && !item.isAccPosted && item.maxSalary >= 1000) {
           postToAccJob(item, filteredTypes);
-        } else if (item.isProgrammer && !item.isDevPosted && item.maxSalary > 1500) {
+        } else if (item.isProgrammer && !item.isDevPosted && item.maxSalary >= 1500) {
           postToDevJob(item, filteredTypes);
-        } else if (item.maxSalary > 3000 && !item.isTopPosted) {
+        } else if (item.maxSalary >= 3000 && !item.isTopPosted) {
           postToTopJob(item, filteredTypes);
         } else if (!item.posted) {
           postToFB(item, filteredTypes);
