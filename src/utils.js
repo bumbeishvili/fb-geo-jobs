@@ -90,9 +90,9 @@ utils.setFlag = function (d) {
 
 function isProgrammer(job) {
   var isProg = false;
-  var checkWords = ['პროგრამისტ', 'დეველოპერ', 'python', 'javascript', '.net', 'php'];
+  var checkWords = ['პროგრამისტ', 'დეველოპერ', 'python', 'javascript', '.net', 'php','java'];
   for (var i = 0; i < checkWords.length; i++) {
-    if (job.pos != null && job.pos.indexOf(checkWords[i]) != -1) {
+    if (job.pos != null && job.pos.toLowerCase().indexOf(checkWords[i]) != -1) {
       isProg = true;
       break;
     }
