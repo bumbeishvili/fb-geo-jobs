@@ -17,7 +17,7 @@ fbApi.startPosting = function (unposted) {
 
     function post() {
       //get job, which was not posted yet
-      db.jobs.findOne({ scrapedForSalary: true, posted: { $ne: true }, type: { $nin: filteredTypes } }, (err, item) => {
+      db.jobs.findOne({ scrapedForSalary: true, maxSalary:{ $gt: 0 } , posted: { $ne: true }, type: { $nin: filteredTypes } }, (err, item) => {
         console.log('Trying to post ', item);
         if (err) {
           console.log(err);
