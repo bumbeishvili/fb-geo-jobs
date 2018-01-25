@@ -66,7 +66,7 @@ mdao.getUnpostedWithSalaryStatistics = function () {
       var stats = {
         total: unposted.length,
         scrapedForSalary: unposted.filter(d => d.scrapedForSalary).length,
-        details: unposted.$groupBy(['type']).map(d => { return { name: d.type, count: d.values.length } })
+        details: unposted.$groupBy(['type']).map(d => { return { name: d.type, count: d.values.length,values:d.values } })
       }
       resolve(stats);
     });// end of db access
