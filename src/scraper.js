@@ -594,7 +594,7 @@ function salaryCrawler(item, callback) {
         console.log(error);
       } else {
         var $ = res.$;
-        var salary = $.text().split(/\n/g).filter(d => d.indexOf('ნაზღ') != -1|| d.indexOf('ლარამდე') || d.indexOf('სარგო') != -1 || d.indexOf('ხელფას') != -1 || d.indexOf('ლარი') != -1);
+        var salary = $.text().split(/\n/g).filter(d => d.indexOf('ნაზღ') != -1|| d.indexOf('ლარამდე')!=-1 || d.indexOf('სარგო') != -1 || d.indexOf('ხელფას') != -1 || d.indexOf('ლარი') != -1);
         if (typeof callback == 'function') {
           callback(salary);
         }
