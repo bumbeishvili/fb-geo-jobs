@@ -100,19 +100,23 @@ app.get('/log', (req, res, next) => {
 
 
 // updater
-// app.get('/setParsedSalariesAndSetFlags', (req, res) => {
-//   var db = mdao.getDB();
-//   var results = [];
-//   db.jobs.find((error, items) => {
-//     items.forEach((item, i) => {
-//       utils.setFlag(item);
-//       mdao.updateItem(item).then(d => {
-//         console.log('updated', i)
-//       });
-//     });
-//   });
-//   res.send('good')
-// })
+app.get('/setParsedSalariesAndSetFlags', (req, res) => {
+  var db = mdao.getDB();
+  var results = [];
+  db.jobs.find({ posted: { $ne: true }, scrapedForSalary: true }, (error, items) => {
+    console.log('updated', items)
+    items.forEach((item, i) => {
+      item.posted = true;
+      setInterval(function (d) {
+        mdao.updateItem(item).then(d => {
+          console.log('updated', i)
+        }, 1 * 1000);
+      })
+
+    });
+  });
+  res.send('good')
+})
 
 var port = process.env.PORT || 3000;
 app.listen(port, () => console.log('Example app listening on port 3000!'))
